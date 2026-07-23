@@ -1,0 +1,54 @@
+<%- include('partials/header', { title: project.name + ' — StackScout' }) %>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2><%= project.name %></h2>
+      <span class="category-tag"><%= project.category %></span>
+    </div>
+
+    <p style="color: var(--text-muted); max-width: 560px;"><%= project.description %></p>
+
+    <div class="activity-row" style="margin: 20px 0;">
+      <span class="signal-dot <%= project.activityLevel %>"></span>
+      <span>
+        <% if (project.activityLevel === 'unknown') { %>
+          Activity not yet tracked — add a contractId to enable live signal.
+        <% } else { %>
+          <%= project.activity.txCount24h || 0 %> txs in the last 24h &middot; <%= project.activityLevel %> activity
+        <% } %>
+      </span>
+    </div>
+
+    <div class="card-links" style="margin-bottom: 32px;">
+      <% if (project.websiteUrl) { %><a href="<%= project.websiteUrl %>" target="_blank" rel="noopener">Website</a><% } %>
+      <% if (project.githubUrl) { %><a href="<%= project.githubUrl %>" target="_blank" rel="noopener">GitHub</a><% } %>
+      <% if (project.twitterUrl) { %><a href="<%= project.twitterUrl %>" target="_blank" rel="noopener">X / Twitter</a><% } %>
+    </div>
+
+    <div class="section-header">
+      <h2 style="font-size: 18px;">Open opportunities at <%= project.name %></h2>
+    </div>
+
+    <% if (opportunities.length === 0) { %>
+      <div class="empty-state">No open opportunities for this project right now.</div>
+    <% } else { %>
+      <div class="opp-list">
+        <% opportunities.forEach(function(o) { %>
+          <div class="opp-row">
+            <div class="opp-main">
+              <span class="opp-title"><%= o.title %></span>
+              <span class="opp-meta"><%= o.skillsNeeded.join(', ') %></span>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span class="opp-type"><%= o.type %></span>
+              <a href="<%= o.applyUrl %>" class="btn btn-ghost" target="_blank" rel="noopener">Apply</a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

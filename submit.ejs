@@ -1,0 +1,51 @@
+<%- include('partials/header', { title: 'Post an opportunity — StackScout' }) %>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Post an opportunity</h2>
+    </div>
+
+    <div class="form-card">
+      <% if (error) { %>
+        <div class="error-banner"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/submit">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required placeholder="e.g. Frontend contributor needed">
+
+        <label for="projectName">Project name</label>
+        <input type="text" id="projectName" name="projectName" required placeholder="e.g. Zest Protocol">
+
+        <label for="type">Type</label>
+        <select id="type" name="type">
+          <option value="Job">Job</option>
+          <option value="Bounty">Bounty</option>
+          <option value="Grant">Grant</option>
+          <option value="Contribution" selected>Contribution</option>
+          <option value="Hackathon">Hackathon</option>
+        </select>
+
+        <label for="skillsNeeded">Skills needed (comma-separated)</label>
+        <input type="text" id="skillsNeeded" name="skillsNeeded" placeholder="Clarity, React, Security">
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="What does this role involve?"></textarea>
+
+        <label for="applyUrl">Apply link</label>
+        <input type="url" id="applyUrl" name="applyUrl" required placeholder="https://...">
+
+        <label for="deadline">Deadline (optional)</label>
+        <input type="date" id="deadline" name="deadline">
+
+        <label for="submittedBy">Your name or handle (optional)</label>
+        <input type="text" id="submittedBy" name="submittedBy" placeholder="@yourhandle">
+
+        <button type="submit" class="btn btn-primary" style="margin-top: 24px;">Post opportunity</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
