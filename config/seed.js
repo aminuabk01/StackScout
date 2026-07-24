@@ -11,7 +11,7 @@ const projects = [
     description: 'A lending protocol built for Bitcoin, letting users borrow and lend against BTC-backed collateral.',
     githubUrl: 'https://github.com/Zest-Protocol/zest-contracts',
     websiteUrl: 'https://app.zestprotocol.com',
-    contractId: SP1A27KFY4XERQCCRCARCYD1CC5N7M6688BSYADJ7.zest-token, // fill in with the real deployed contract principal for live tracking
+    contractId: 'SP1A27KFY4XERQCCRCARCYD1CC5N7M6688BSYADJ7.zest-token', // fill in with the real deployed contract principal for live tracking
   },
   {
     name: 'BitFlow',
