@@ -65,6 +65,31 @@ const opportunities = [
     description: 'Open grant round for builders creating public DeFi tooling on Stacks.',
     applyUrl: 'https://stacksendowment.co/grants',
   },
+  {
+    title: 'DeGrants Cohort 4 — Community Grants (closes July 26!)',
+    projectName: 'Stacks Ecosystem',
+    type: 'Grant',
+    skillsNeeded: ['Any'],
+    description: 'Community-led grants funding culture, education, adoption, and engagement projects across Stacks. Up to $5,000 in STX. Applications close Sunday, July 26.',
+    applyUrl: 'https://stacksendowment.co/blog/degrants-cohort-4-now-open',
+    deadline: '2026-07-26',
+  },
+  {
+    title: 'Builder Grants — Quarterly Funding',
+    projectName: 'Stacks Ecosystem',
+    type: 'Grant',
+    skillsNeeded: ['Any'],
+    description: 'For teams with proven traction — rewards measurable impact on TVL growth, transaction volume, and infrastructure. $10,000–$50,000 in STX.',
+    applyUrl: 'https://stacksendowment.co/grants',
+  },
+  {
+    title: 'Bug Bounty — Security Vulnerability Disclosure',
+    projectName: 'Stacks Ecosystem',
+    type: 'Bounty',
+    skillsNeeded: ['Security', 'Clarity'],
+    description: 'Earn bounties for discovering and responsibly disclosing bugs and vulnerabilities via Immunefi.',
+    applyUrl: 'https://stacks.org/grants',
+  },
 ];
 
 async function seed() {
