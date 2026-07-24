@@ -19,7 +19,7 @@ const projects = [
     category: 'DeFi',
     description: 'A decentralized exchange for Bitcoiners, enabling swaps across Stacks-based assets.',
     websiteUrl: 'https://www.bitflow.finance/',
-    contractId: null,
+    contractId: 'SP2PPPT2R6S1G8VF2HQ3AHVGPH0XQQ68J4QV39AA6.bitflow',
   },
   {
     name: 'Alex',
