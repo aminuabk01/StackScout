@@ -478,7 +478,14 @@ footer {
 
 .footer-links {
   display: flex;
-  gap: 18px;
+  gap: 16px;
+  align-items: center;
+}
+
+.footer-links a {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
 }
 
 .footer-links a:hover { color: var(--accent-signal); }
