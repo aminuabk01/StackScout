@@ -478,17 +478,26 @@ footer {
 
 .footer-links {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
 }
 
-.footer-links a {
+.social-icon {
   display: flex;
   align-items: center;
-  color: var(--text-muted);
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #ffffff;
+  transition: transform 0.15s ease, filter 0.15s ease;
 }
 
-.footer-links a:hover { color: var(--accent-signal); }
+.social-icon:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+.icon-github { background: #24292e; }
+.icon-x { background: #000000; }
+.icon-telegram { background: #26a5e4; }
 
 @media (max-width: 640px) {
   .footer-inner { flex-direction: column; align-items: flex-start; }
