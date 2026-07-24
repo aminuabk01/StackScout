@@ -28,7 +28,7 @@ const projects = [
     description: 'An autonomous Bitcoin liquidity protocol for liquidity providers, borrowers, and liquidators.',
     githubUrl: 'https://github.com/alexgo-io',
     websiteUrl: 'https://alexgo.io/',
-    contractId: null,
+    contractId: 'SP3K8BC0PPEVCV7NZ6QSRWPQ2JE9E5B6N3PA0KBR9.age000-governance-token',
   },
   {
     name: 'Stacking DAO',
@@ -36,7 +36,7 @@ const projects = [
     category: 'DeFi',
     description: 'Liquidity for stacked STX tokens on Stacks.',
     websiteUrl: 'https://stackingdao.com/',
-    contractId: null,
+    contractId: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.stacking-dao-core-v6',
   },
 ];
 
