@@ -21,6 +21,24 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
+html[data-theme='light'] {
+  --bg: #ffffff;
+  --surface: #f6f6f8;
+  --surface-raised: #eeeef2;
+  --border: #e1e1e6;
+  --text-primary: #14141a;
+  --text-muted: #63636e;
+  --accent-signal-dim: rgba(108, 76, 232, 0.12);
+  --accent-orange-dim: rgba(242, 153, 74, 0.14);
+}
+
+html {
+  color-scheme: dark;
+  transition: background-color 0.15s ease;
+}
+
+html[data-theme='light'] { color-scheme: light; }
+
 * { box-sizing: border-box; }
 
 html, body {
@@ -112,6 +130,25 @@ a { color: inherit; text-decoration: none; }
 .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .nav-toggle.open span:nth-child(2) { opacity: 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.theme-icon-light { display: none; }
+html[data-theme='light'] .theme-icon-dark { display: none; }
+html[data-theme='light'] .theme-icon-light { display: inline; }
 
 .btn {
   font-family: var(--font-body);
