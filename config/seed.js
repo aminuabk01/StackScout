@@ -90,6 +90,30 @@ const opportunities = [
     description: 'Earn bounties for discovering and responsibly disclosing bugs and vulnerabilities via Immunefi.',
     applyUrl: 'https://stacks.org/grants',
   },
+  {
+    title: 'Maelstrom Bitcoin Grant',
+    projectName: 'Stacks Ecosystem',
+    type: 'Grant',
+    skillsNeeded: ['Any'],
+    description: 'Rolling grant funding developers building on Bitcoin — Stacks qualifies as a Bitcoin layer. Funding ranges from $50,000 to $150,000 per developer.',
+    applyUrl: 'https://stacksendowment.co/grants',
+  },
+  {
+    title: 'Stacks Residence Program — Full-time Contributor Roles',
+    projectName: 'Stacks Ecosystem',
+    type: 'Job',
+    skillsNeeded: ['Any'],
+    description: 'Full-time contributor positions across the Stacks ecosystem — define your own residency or apply for a proposed role.',
+    applyUrl: 'https://stacks.foundation/contribute',
+  },
+  {
+    title: 'Hiro Bug Bounty',
+    projectName: 'Hiro',
+    type: 'Bounty',
+    skillsNeeded: ['Security'],
+    description: 'Get paid for discovering and responsibly reporting bugs in Hiro\'s products and services (API, tooling, developer platform).',
+    applyUrl: 'https://stacks.org/grants',
+  },
 ];
 
 async function seed() {
