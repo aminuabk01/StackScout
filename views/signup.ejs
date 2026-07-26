@@ -1,0 +1,34 @@
+<%- include('partials/header', { title: 'Sign up — StackScout' }) %>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Create your account</h2>
+    </div>
+
+    <div class="form-card">
+      <% if (error) { %>
+        <div class="error-banner"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/signup">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autocomplete="username">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password">
+
+        <button type="submit" class="btn btn-primary" style="margin-top: 24px;">Create account</button>
+      </form>
+
+      <p style="margin-top: 20px; font-size: 13px; color: var(--text-muted);">
+        Already have an account? <a href="/login" style="color: var(--accent-signal);">Sign in</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
