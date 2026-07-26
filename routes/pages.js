@@ -7,9 +7,9 @@ const Opportunity = require('../models/Opportunity');
 router.get('/', async (req, res) => {
   const [projects, opportunities] = await Promise.all([
     Project.find().sort({ 'activity.txCount24h': -1 }).lean(),
-    Opportunity.find({ approved: true, status: 'open' }).sort({ createdAt: -1 }).limit(12).lean(),
+    Opportunity.find({ reviewStatus: 'approved', status: 'open' }).sort({ createdAt: -1 }).limit(12).lean(),
   ]);
-  res.render('index', { projects, opportunities });
+  res.render('index', { projects, opportunities, submitted: req.query.submitted === '1' });
 });
 
 // Single project detail + its open opportunities
@@ -18,7 +18,7 @@ router.get('/projects/:slug', async (req, res) => {
   if (!project) return res.status(404).render('404');
 
   const opportunities = await Opportunity.find({
-    approved: true,
+    reviewStatus: 'approved',
     status: 'open',
     project: project._id,
   }).lean();
@@ -44,6 +44,7 @@ router.post('/submit', async (req, res) => {
       applyUrl,
       deadline: deadline || null,
       submittedBy: submittedBy || 'Anonymous',
+      reviewStatus: 'pending',
     });
 
     res.redirect('/?submitted=1');
