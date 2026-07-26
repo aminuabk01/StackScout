@@ -16,6 +16,7 @@ const opportunitySchema = new mongoose.Schema(
     deadline: { type: Date, default: null },
     status: { type: String, enum: ['open', 'closed'], default: 'open' },
     submittedBy: { type: String, default: 'StackScout Team' },
+    submittedByUser: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     reviewStatus: {
       type: String,
       enum: ['pending', 'approved', 'rejected'],
