@@ -6,11 +6,25 @@ const { requireAuth } = require('../middleware/auth');
 
 // Home — discover projects + open opportunities
 router.get('/', async (req, res) => {
-  const [projects, opportunities] = await Promise.all([
+  const typeFilter = req.query.type || null;
+  const oppFilter = { reviewStatus: 'approved', status: 'open' };
+  if (typeFilter) oppFilter.type = typeFilter;
+
+  const [projects, opportunities, topActive, newOnRadar] = await Promise.all([
     Project.find().sort({ 'activity.txCount24h': -1 }).lean(),
-    Opportunity.find({ reviewStatus: 'approved', status: 'open' }).sort({ createdAt: -1 }).limit(12).lean(),
+    Opportunity.find(oppFilter).sort({ createdAt: -1 }).limit(12).lean(),
+    Project.find({ 'activity.txCount24h': { $gt: 0 } }).sort({ 'activity.txCount24h': -1 }).limit(5).lean(),
+    Project.find().sort({ createdAt: -1 }).limit(5).lean(),
   ]);
-  res.render('index', { projects, opportunities, submitted: req.query.submitted === '1' });
+
+  res.render('index', {
+    projects,
+    opportunities,
+    topActive,
+    newOnRadar,
+    submitted: req.query.submitted === '1',
+    activeType: typeFilter,
+  });
 });
 
 // Single project detail + its open opportunities
