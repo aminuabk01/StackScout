@@ -21,6 +21,7 @@
       <div class="nav-links" id="navLinks">
         <a href="/#projects">Projects</a>
         <a href="/#opportunities">Opportunities</a>
+        <a href="/submit">Post an opportunity</a>
       </div>
       <div class="nav-actions">
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
@@ -30,7 +31,14 @@
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
           <span></span><span></span><span></span>
         </button>
-        <a href="/submit" class="btn btn-primary">Post an opportunity</a>
+        <% if (typeof user !== 'undefined' && user) { %>
+          <a href="/profile" class="profile-badge" aria-label="Your profile">
+            <span class="profile-avatar"><%= user.username.charAt(0).toUpperCase() %></span>
+            <span class="profile-name"><%= user.username %></span>
+          </a>
+        <% } else { %>
+          <a href="/login" class="btn btn-primary">Sign in</a>
+        <% } %>
       </div>
     </div>
   </nav>
