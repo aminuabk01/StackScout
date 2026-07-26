@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
 const Opportunity = require('../models/Opportunity');
+const { requireAuth } = require('../middleware/auth');
 
 // Home — discover projects + open opportunities
 router.get('/', async (req, res) => {
@@ -27,13 +28,13 @@ router.get('/projects/:slug', async (req, res) => {
 });
 
 // Submit an opportunity — form
-router.get('/submit', (req, res) => {
+router.get('/submit', requireAuth, (req, res) => {
   res.render('submit', { error: null });
 });
 
-router.post('/submit', async (req, res) => {
+router.post('/submit', requireAuth, async (req, res) => {
   try {
-    const { title, projectName, type, skillsNeeded, description, applyUrl, deadline, submittedBy } = req.body;
+    const { title, projectName, type, skillsNeeded, description, applyUrl, deadline } = req.body;
 
     await Opportunity.create({
       title,
@@ -43,7 +44,8 @@ router.post('/submit', async (req, res) => {
       description,
       applyUrl,
       deadline: deadline || null,
-      submittedBy: submittedBy || 'Anonymous',
+      submittedBy: req.user.username,
+      submittedByUser: req.user._id,
       reviewStatus: 'pending',
     });
 
