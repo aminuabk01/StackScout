@@ -16,7 +16,12 @@ const opportunitySchema = new mongoose.Schema(
     deadline: { type: Date, default: null },
     status: { type: String, enum: ['open', 'closed'], default: 'open' },
     submittedBy: { type: String, default: 'StackScout Team' },
-    approved: { type: Boolean, default: true }, // set false for a moderation queue later
+    reviewStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending',
+    },
+    rejectionReason: { type: String, default: null },
   },
   { timestamps: true }
 );
