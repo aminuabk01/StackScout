@@ -120,19 +120,34 @@ async function seed() {
   await mongoose.connect(process.env.MONGO_URI);
   console.log('Connected. Seeding...');
 
-  await Project.deleteMany({});
-  await Opportunity.deleteMany({});
-
-  const createdProjects = await Project.insertMany(projects);
+  const createdProjects = [];
+  for (const p of projects) {
+    const doc = await Project.findOneAndUpdate(
+      { slug: p.slug },
+      { $set: p },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+    createdProjects.push(doc);
+  }
   const nameToId = Object.fromEntries(createdProjects.map((p) => [p.name, p._id]));
 
-  const opportunitiesWithRefs = opportunities.map((o) => ({
-    ...o,
-    project: nameToId[o.projectName] || null,
-  }));
-  await Opportunity.insertMany(opportunitiesWithRefs);
+  let count = 0;
+  for (const o of opportunities) {
+    await Opportunity.findOneAndUpdate(
+      { title: o.title, projectName: o.projectName },
+      {
+        $set: {
+          ...o,
+          project: nameToId[o.projectName] || null,
+          reviewStatus: 'approved',
+        },
+      },
+      { upsert: true, setDefaultsOnInsert: true }
+    );
+    count++;
+  }
 
-  console.log(`Seeded ${createdProjects.length} projects and ${opportunitiesWithRefs.length} opportunities.`);
+  console.log(`Seeded/updated ${createdProjects.length} projects and ${count} curated opportunities.`);
   await mongoose.disconnect();
 }
 
