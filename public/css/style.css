@@ -63,6 +63,8 @@ a { color: inherit; text-decoration: none; }
 .nav {
   border-bottom: 1px solid var(--border);
   padding: 20px 0;
+  position: relative;
+  z-index: 50;
 }
 
 .nav-inner {
@@ -659,7 +661,6 @@ footer {
   }
   .nav-links.open { max-height: 240px; }
   .nav-links a { padding: 14px 24px; border-top: 1px solid var(--border); }
-  .nav { position: relative; }
 }
 
 @media (max-width: 400px) {
