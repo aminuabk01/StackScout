@@ -1,5 +1,13 @@
 <%- include('partials/header', { title: 'StackScout — Discover the Stacks ecosystem' }) %>
 
+<% if (submitted) { %>
+  <div class="container" style="padding-top: 20px;">
+    <div class="banner-success">
+      Thanks — your opportunity was submitted and is pending review. It'll appear here once approved.
+    </div>
+  </div>
+<% } %>
+
 <section class="hero">
   <div class="radar-scan"><div class="radar-sweep"></div></div>
   <div class="container hero-content">
