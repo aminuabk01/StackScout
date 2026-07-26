@@ -11,7 +11,7 @@ router.get('/projects', async (req, res) => {
 
 router.get('/opportunities', async (req, res) => {
   const { type, skill } = req.query;
-  const filter = { approved: true, status: 'open' };
+  const filter = { reviewStatus: 'approved', status: 'open' };
   if (type) filter.type = type;
   if (skill) filter.skillsNeeded = skill;
 
