@@ -1,0 +1,141 @@
+<%- include('partials/header', { title: 'StackScout — Discover the Stacks ecosystem' }) %>
+
+<% if (submitted) { %>
+  <div class="container" style="padding-top: 20px;">
+    <div class="banner-success">
+      Thanks — your opportunity was submitted and is pending review. It'll appear here once approved.
+    </div>
+  </div>
+<% } %>
+
+<section class="hero">
+  <div class="radar-scan"><div class="radar-sweep"></div></div>
+  <div class="container hero-content">
+    <div class="eyebrow">&#9679; Live on-chain signal</div>
+    <h1>Find where to build, contribute, and grow on Stacks.</h1>
+    <p>StackScout tracks real activity across Stacks projects and pairs it with open roles, bounties, and grants — so you know not just what exists, but what's actually alive.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">Scout projects</a>
+      <a href="/submit" class="btn btn-ghost">Post an opportunity</a>
+    </div>
+  </div>
+</section>
+
+<% if (topActive && topActive.length > 0) { %>
+<section class="section" id="ranking">
+  <div class="container">
+    <div class="section-header">
+      <h2>Most active this week</h2>
+      <span class="count">by 24h on-chain activity</span>
+    </div>
+    <div class="ranking-list">
+      <% topActive.forEach(function(p, i) { %>
+        <a href="/projects/<%= p.slug %>" class="ranking-row">
+          <span class="ranking-num"><%= i + 1 %></span>
+          <span class="ranking-name"><%= p.name %></span>
+          <span class="ranking-stat"><%= p.activity.txCount24h || 0 %> txs/24h</span>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<% if (newOnRadar && newOnRadar.length > 0) { %>
+<section class="section" id="new-on-radar">
+  <div class="container">
+    <div class="section-header">
+      <h2>New on the radar</h2>
+      <span class="count">recently added</span>
+    </div>
+    <div class="grid">
+      <% newOnRadar.forEach(function(p) { %>
+        <a href="/projects/<%= p.slug %>" class="card">
+          <div class="card-top">
+            <span class="card-title"><%= p.name %></span>
+            <span class="category-tag"><%= p.category %></span>
+          </div>
+          <p class="card-desc"><%= p.description %></p>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<section class="section" id="projects">
+  <div class="container">
+    <div class="section-header">
+      <h2>Projects on the radar</h2>
+      <span class="count"><%= projects.length %> tracked</span>
+    </div>
+
+    <% if (projects.length === 0) { %>
+      <div class="empty-state">No projects tracked yet — run the seed script to load demo data.</div>
+    <% } else { %>
+      <div class="grid">
+        <% projects.forEach(function(p) { %>
+          <a href="/projects/<%= p.slug %>" class="card">
+            <div class="card-top">
+              <span class="card-title"><%= p.name %></span>
+              <span class="category-tag"><%= p.category %></span>
+            </div>
+            <p class="card-desc"><%= p.description %></p>
+            <div class="activity-row">
+              <span class="signal-dot <%= p.activityLevel %>"></span>
+              <span>
+                <% if (p.activityLevel === 'unknown') { %>
+                  activity: not yet tracked
+                <% } else { %>
+                  <%= p.activity.txCount24h || 0 %> txs / 24h &middot; <%= p.activityLevel %>
+                <% } %>
+              </span>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<section class="section" id="opportunities">
+  <div class="container">
+    <div class="section-header">
+      <h2>Open opportunities</h2>
+      <span class="count"><%= opportunities.length %> open</span>
+    </div>
+
+    <div class="filter-pills">
+      <a href="/#opportunities" class="filter-pill <%= !activeType ? 'active' : '' %>">All</a>
+      <% ['Job', 'Bounty', 'Grant', 'Contribution', 'Hackathon'].forEach(function(t) { %>
+        <a href="/?type=<%= t %>#opportunities" class="filter-pill <%= activeType === t ? 'active' : '' %>"><%= t %></a>
+      <% }) %>
+    </div>
+
+    <% if (opportunities.length === 0) { %>
+      <div class="empty-state">No open opportunities yet. <a href="/submit">Post the first one</a>.</div>
+    <% } else { %>
+      <div class="opp-list">
+        <% opportunities.forEach(function(o) { %>
+          <div class="opp-row">
+            <div class="opp-main">
+              <span class="opp-title"><%= o.title %></span>
+              <span class="opp-meta">
+                <%= o.projectName %>
+                <% if (o.skillsNeeded && o.skillsNeeded.length) { %>
+                  &middot; <%= o.skillsNeeded.join(', ') %>
+                <% } %>
+              </span>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span class="opp-type"><%= o.type %></span>
+              <a href="<%= o.applyUrl %>" class="btn btn-ghost" target="_blank" rel="noopener">Apply</a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
