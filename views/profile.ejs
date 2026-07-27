@@ -11,6 +11,10 @@
 
     <p style="color: var(--text-muted); margin-bottom: 32px;"><%= user.email %></p>
 
+    <% if (user.isAdmin) { %>
+      <a href="/admin" class="btn btn-primary" style="margin-bottom: 32px; display:inline-block;">Open review dashboard</a>
+    <% } %>
+
     <div class="section-header">
       <h2 style="font-size: 18px;">Your submitted opportunities</h2>
       <a href="/submit" class="btn btn-primary">Post an opportunity</a>
