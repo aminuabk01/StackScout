@@ -12,6 +12,7 @@ const opportunitySchema = new mongoose.Schema(
     },
     skillsNeeded: [{ type: String, trim: true }],
     description: { type: String, default: '' },
+    stacksRelevance: { type: String, default: '' },
     applyUrl: { type: String, required: true },
     deadline: { type: Date, default: null },
     status: { type: String, enum: ['open', 'closed'], default: 'open' },
@@ -22,7 +23,7 @@ const opportunitySchema = new mongoose.Schema(
       enum: ['pending', 'approved', 'rejected'],
       default: 'pending',
     },
-    rejectionReason: { type: String, default: null },
+    reviewerNote: { type: String, default: null },
   },
   { timestamps: true }
 );
