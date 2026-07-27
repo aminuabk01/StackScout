@@ -1,0 +1,72 @@
+<%- include('partials/header', { title: 'Admin — StackScout' }) %>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Review queue</h2>
+      <span class="count"><%= opportunities.length %> <%= tab %></span>
+    </div>
+
+    <div class="filter-pills">
+      <a href="/admin?tab=pending" class="filter-pill <%= tab === 'pending' ? 'active' : '' %>">Pending</a>
+      <a href="/admin?tab=approved" class="filter-pill <%= tab === 'approved' ? 'active' : '' %>">Approved</a>
+      <a href="/admin?tab=rejected" class="filter-pill <%= tab === 'rejected' ? 'active' : '' %>">Rejected</a>
+    </div>
+
+    <% if (opportunities.length === 0) { %>
+      <div class="empty-state">Nothing in this queue right now.</div>
+    <% } else { %>
+      <div class="admin-list">
+        <% opportunities.forEach(function(o) { %>
+          <div class="admin-card">
+            <div class="admin-card-top">
+              <div>
+                <span class="opp-title"><%= o.title %></span>
+                <span class="opp-type" style="margin-left: 8px;"><%= o.type %></span>
+              </div>
+              <span class="review-status review-<%= o.reviewStatus %>"><%= o.reviewStatus %></span>
+            </div>
+
+            <div class="admin-field"><strong>Project:</strong> <%= o.projectName %></div>
+            <div class="admin-field"><strong>Skills:</strong> <%= (o.skillsNeeded || []).join(', ') || '—' %></div>
+            <div class="admin-field"><strong>Description:</strong> <%= o.description || '—' %></div>
+            <div class="admin-field"><strong>Why relevant to Stacks:</strong> <%= o.stacksRelevance || '— not provided —' %></div>
+            <div class="admin-field"><strong>Apply link:</strong> <a href="<%= o.applyUrl %>" target="_blank" rel="noopener"><%= o.applyUrl %></a></div>
+            <div class="admin-field"><strong>Deadline:</strong> <%= o.deadline ? new Date(o.deadline).toDateString() : 'None listed' %></div>
+            <div class="admin-field">
+              <strong>Submitted by:</strong>
+              <%= o.submittedByUser ? (o.submittedByUser.username + ' (' + o.submittedByUser.email + ')') : o.submittedBy %>
+              on <%= new Date(o.createdAt).toDateString() %>
+            </div>
+            <% if (o.reviewerNote) { %>
+              <div class="admin-field"><strong>Reviewer note:</strong> <%= o.reviewerNote %></div>
+            <% } %>
+
+            <div class="admin-actions">
+              <% if (o.reviewStatus !== 'approved') { %>
+                <form method="POST" action="/admin/opportunities/<%= o._id %>/approve" style="display:inline;">
+                  <button type="submit" class="btn btn-primary">Approve</button>
+                </form>
+              <% } %>
+
+              <% if (o.reviewStatus !== 'rejected') { %>
+                <form method="POST" action="/admin/opportunities/<%= o._id %>/reject" style="display:inline-flex; gap:8px; align-items:center;">
+                  <input type="text" name="reviewerNote" placeholder="Reason (shown to submitter)" style="width:220px;">
+                  <button type="submit" class="btn btn-ghost">Reject / Request changes</button>
+                </form>
+              <% } %>
+
+              <% if (o.reviewStatus !== 'pending') { %>
+                <form method="POST" action="/admin/opportunities/<%= o._id %>/reset?tab=<%= tab %>" style="display:inline;">
+                  <button type="submit" class="btn btn-ghost">Reset to pending</button>
+                </form>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
