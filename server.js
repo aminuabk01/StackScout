@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const pageRoutes = require('./routes/pages');
 const apiRoutes = require('./routes/api');
 const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
 const { attachUser } = require('./middleware/auth');
 const { startActivityRefresher } = require('./services/activityRefresher');
 
@@ -26,6 +27,7 @@ app.use(attachUser); // makes res.locals.user available in every view
 
 // Routes
 app.use('/', authRoutes);
+app.use('/', adminRoutes);
 app.use('/', pageRoutes);
 app.use('/api', apiRoutes);
 
