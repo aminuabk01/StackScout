@@ -48,7 +48,11 @@ router.get('/submit', requireAuth, (req, res) => {
 
 router.post('/submit', requireAuth, async (req, res) => {
   try {
-    const { title, projectName, type, skillsNeeded, description, applyUrl, deadline } = req.body;
+    const { title, projectName, type, skillsNeeded, description, stacksRelevance, applyUrl, deadline } = req.body;
+
+    if (!stacksRelevance || !stacksRelevance.trim()) {
+      return res.render('submit', { error: 'Please explain why this opportunity is relevant to Stacks.' });
+    }
 
     await Opportunity.create({
       title,
@@ -56,6 +60,7 @@ router.post('/submit', requireAuth, async (req, res) => {
       type,
       skillsNeeded: skillsNeeded ? skillsNeeded.split(',').map((s) => s.trim()).filter(Boolean) : [],
       description,
+      stacksRelevance,
       applyUrl,
       deadline: deadline || null,
       submittedBy: req.user.username,
