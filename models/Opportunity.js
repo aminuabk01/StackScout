@@ -12,6 +12,7 @@ const opportunitySchema = new mongoose.Schema(
     },
     skillsNeeded: [{ type: String, trim: true }],
     description: { type: String, default: '' },
+    reward: { type: String, default: '' },
     stacksRelevance: { type: String, default: '' },
     applyUrl: { type: String, required: true },
     deadline: { type: Date, default: null },
