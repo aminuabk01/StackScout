@@ -4,6 +4,15 @@ const Project = require('../models/Project');
 const Opportunity = require('../models/Opportunity');
 const { requireAuth } = require('../middleware/auth');
 
+// Keywords matched against an opportunity's skillsNeeded/description/type for each user role.
+const ROLE_KEYWORDS = {
+  developer: ['react', 'clarity', 'typescript', 'javascript', 'node', 'backend', 'frontend', 'smart contract', 'solidity', 'rust', 'developer', 'security', 'engineer'],
+  designer: ['design', 'ui', 'ux', 'figma', 'branding', 'visual'],
+  writer: ['writing', 'content', 'copywriting', 'documentation', 'docs', 'blog', 'writer'],
+  community: ['community', 'moderation', 'events', 'discord', 'social', 'outreach', 'ambassador'],
+  researcher: ['research', 'analysis', 'tokenomics', 'data', 'analyst'],
+};
+
 // Home — discover projects + open opportunities
 router.get('/', async (req, res) => {
   const typeFilter = req.query.type || null;
@@ -17,11 +26,26 @@ router.get('/', async (req, res) => {
     Project.find().sort({ createdAt: -1 }).limit(5).lean(),
   ]);
 
+  let recommended = [];
+  if (req.user && req.user.role && ROLE_KEYWORDS[req.user.role]) {
+    const keywords = ROLE_KEYWORDS[req.user.role];
+    const regex = new RegExp(keywords.join('|'), 'i');
+    recommended = await Opportunity.find({
+      reviewStatus: 'approved',
+      status: 'open',
+      $or: [{ skillsNeeded: regex }, { description: regex }, { title: regex }],
+    })
+      .sort({ createdAt: -1 })
+      .limit(6)
+      .lean();
+  }
+
   res.render('index', {
     projects,
     opportunities,
     topActive,
     newOnRadar,
+    recommended,
     submitted: req.query.submitted === '1',
     activeType: typeFilter,
   });
