@@ -308,6 +308,55 @@ html[data-theme='light'] .theme-icon-light { display: inline; }
 
 .hero-actions { display: flex; gap: 12px; }
 
+.trending-widget {
+  margin-top: 40px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  max-width: 420px;
+}
+
+.trending-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trending-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 4px;
+  border-radius: 6px;
+  color: var(--text-primary);
+}
+
+.trending-item:hover { background: var(--surface-raised); }
+
+.trending-name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.trending-arrow {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.trend-high, .trend-growing { color: var(--accent-orange); }
+.trend-steady { color: var(--text-muted); }
+.trend-quiet { color: var(--text-muted); }
+
 /* ---------- Section headers ---------- */
 
 .section {
