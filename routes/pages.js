@@ -41,6 +41,25 @@ router.get('/projects/:slug', async (req, res) => {
   res.render('project', { project, opportunities });
 });
 
+// Single opportunity detail page
+router.get('/opportunities/:id', async (req, res) => {
+  let opportunity;
+  try {
+    opportunity = await Opportunity.findOne({
+      _id: req.params.id,
+      reviewStatus: 'approved',
+    }).lean();
+  } catch (err) {
+    return res.status(404).render('404'); // invalid ObjectId format
+  }
+
+  if (!opportunity) return res.status(404).render('404');
+
+  const project = opportunity.project ? await Project.findById(opportunity.project).lean() : null;
+
+  res.render('opportunity', { opportunity, project });
+});
+
 // Submit an opportunity — form
 router.get('/submit', requireAuth, (req, res) => {
   res.render('submit', { error: null });
@@ -48,7 +67,7 @@ router.get('/submit', requireAuth, (req, res) => {
 
 router.post('/submit', requireAuth, async (req, res) => {
   try {
-    const { title, projectName, type, skillsNeeded, description, stacksRelevance, applyUrl, deadline } = req.body;
+    const { title, projectName, type, skillsNeeded, description, reward, stacksRelevance, applyUrl, deadline } = req.body;
 
     if (!stacksRelevance || !stacksRelevance.trim()) {
       return res.render('submit', { error: 'Please explain why this opportunity is relevant to Stacks.' });
@@ -60,6 +79,7 @@ router.post('/submit', requireAuth, async (req, res) => {
       type,
       skillsNeeded: skillsNeeded ? skillsNeeded.split(',').map((s) => s.trim()).filter(Boolean) : [],
       description,
+      reward,
       stacksRelevance,
       applyUrl,
       deadline: deadline || null,
