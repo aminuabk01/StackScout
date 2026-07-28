@@ -1,0 +1,74 @@
+<%- include('partials/header', { title: opportunity.title + ' — StackScout' }) %>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2><%= opportunity.title %></h2>
+      <span class="opp-type"><%= opportunity.type %></span>
+    </div>
+
+    <p style="color: var(--text-muted); margin-bottom: 4px;">
+      <% if (project) { %>
+        <a href="/projects/<%= project.slug %>" style="color: var(--accent-signal);"><%= project.name %></a>
+      <% } else { %>
+        <%= opportunity.projectName %>
+      <% } %>
+    </p>
+
+    <span class="approved-badge" style="margin-bottom: 24px; display:inline-flex;">&#10003; StackScout Approved</span>
+
+    <div class="detail-grid">
+      <div class="detail-main">
+        <h3 class="detail-label">Description</h3>
+        <p class="detail-text"><%= opportunity.description || 'No description provided.' %></p>
+
+        <h3 class="detail-label">Why this is relevant to Stacks</h3>
+        <p class="detail-text"><%= opportunity.stacksRelevance %></p>
+
+        <% if (opportunity.skillsNeeded && opportunity.skillsNeeded.length) { %>
+          <h3 class="detail-label">Requirements</h3>
+          <div class="skill-tags">
+            <% opportunity.skillsNeeded.forEach(function(s) { %>
+              <span class="skill-tag"><%= s %></span>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+
+      <div class="detail-side">
+        <div class="detail-side-card">
+          <div class="detail-side-row">
+            <span class="detail-side-label">Reward</span>
+            <span class="detail-side-value"><%= opportunity.reward || 'Not specified' %></span>
+          </div>
+          <div class="detail-side-row">
+            <span class="detail-side-label">Deadline</span>
+            <span class="detail-side-value"><%= opportunity.deadline ? new Date(opportunity.deadline).toDateString() : 'Open' %></span>
+          </div>
+          <div class="detail-side-row">
+            <span class="detail-side-label">Status</span>
+            <span class="detail-side-value"><%= opportunity.status %></span>
+          </div>
+
+          <% if (project) { %>
+            <div class="detail-side-row">
+              <span class="detail-side-label">Project activity</span>
+              <span class="detail-side-value">
+                <span class="signal-dot <%= project.activityLevel %>"></span>
+                <% if (project.activityLevel === 'unknown') { %>
+                  not yet tracked
+                <% } else { %>
+                  <%= project.activity.txCount24h || 0 %> txs/24h &middot; <%= project.activityLevel %>
+                <% } %>
+              </span>
+            </div>
+          <% } %>
+
+          <a href="<%= opportunity.applyUrl %>" class="btn btn-primary" target="_blank" rel="noopener" style="display:block; text-align:center; margin-top: 20px;">Apply now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

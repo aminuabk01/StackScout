@@ -119,7 +119,7 @@
         <% opportunities.forEach(function(o) { %>
           <div class="opp-row">
             <div class="opp-main">
-              <span class="opp-title"><%= o.title %></span>
+              <a href="/opportunities/<%= o._id %>" class="opp-title"><%= o.title %></a>
               <span class="opp-meta">
                 <%= o.projectName %>
                 <% if (o.skillsNeeded && o.skillsNeeded.length) { %>

@@ -37,7 +37,7 @@
         <% opportunities.forEach(function(o) { %>
           <div class="opp-row">
             <div class="opp-main">
-              <span class="opp-title"><%= o.title %></span>
+              <a href="/opportunities/<%= o._id %>" class="opp-title"><%= o.title %></a>
               <span class="opp-meta"><%= o.skillsNeeded.join(', ') %></span>
             </div>
             <div style="display:flex; align-items:center; gap:12px;">
