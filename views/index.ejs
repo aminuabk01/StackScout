@@ -18,6 +18,22 @@
       <a href="#projects" class="btn btn-primary">Scout projects</a>
       <a href="/submit" class="btn btn-ghost">Post an opportunity</a>
     </div>
+
+    <% if (topActive && topActive.length > 0) { %>
+    <div class="trending-widget">
+      <div class="trending-title">&#128293; Trending Today</div>
+      <div class="trending-list">
+        <% topActive.slice(0, 4).forEach(function(p) { %>
+          <a href="/projects/<%= p.slug %>" class="trending-item">
+            <span class="trending-name"><%= p.name %></span>
+            <span class="trending-arrow trend-<%= p.activityLevel %>">
+              <% if (p.activityLevel === 'high' || p.activityLevel === 'growing') { %>&#8593;<% } else if (p.activityLevel === 'quiet') { %>&#8595;<% } else { %>&#8594;<% } %>
+            </span>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+    <% } %>
   </div>
 </section>
 
