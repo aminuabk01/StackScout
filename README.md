@@ -1,94 +1,81 @@
 # StackScout
 
-Discover where to build, contribute, and grow within the Stacks ecosystem.
+**Discover where to build, contribute, and grow within the Stacks ecosystem.**
 
-StackScout tracks live on-chain activity for Stacks projects (via the Hiro
-Stacks Blockchain API) and pairs it with open opportunities — jobs, bounties,
-grants, and contribution requests — so builders can see not just what
-projects exist, but which ones are actually active right now.
+Live site: [stackscout.onrender.com](https://stackscout.onrender.com)
+X: [@StackScout_](https://x.com/StackScout_) · Telegram: [t.me/StackScout](https://t.me/StackScout)
 
-## Stack
+---
 
-- Node.js + Express
-- MongoDB + Mongoose
-- EJS templates
-- node-cron for periodic on-chain activity refresh
-- Hiro Stacks Blockchain API (`api.hiro.so`) for on-chain data
+## The Problem
 
-## Project structure
+Finding active projects and real opportunities across the Stacks ecosystem is difficult because the information is scattered. Builders have to manually piece together GitHub activity, project websites, Discord servers, and social media just to figure out what's actually alive and where they can contribute.
 
-```
-stackscout/
-  server.js                 # app entry point
-  models/
-    Project.js               # tracked project + cached activity snapshot
-    Opportunity.js            # job/bounty/grant/contribution listing
-  routes/
-    pages.js                 # HTML pages (home, project detail, submit form)
-    api.js                    # JSON API (projects, opportunities, manual refresh)
-  services/
-    hiroApi.js                # Hiro API client + activity snapshot logic
-    activityRefresher.js      # cron job that refreshes cached activity
-  views/                     # EJS templates
-  public/css/style.css        # design system
-  config/seed.js              # demo data for projects + opportunities
-```
+## The Solution
+
+StackScout combines **live on-chain activity data** from the Stacks Blockchain API with a **verified opportunity board**, so builders can see not just what projects exist, but what's actually active right now — and find legitimate, reviewed ways to contribute.
+
+## Features
+
+- **Live project discovery** — tracked Stacks projects ranked by real 24h transaction activity, pulled directly from the Stacks Blockchain API (Hiro)
+- **Trending Today** — a homepage widget surfacing the most active projects right now
+- **Opportunity board** — jobs, bounties, grants, and contribution requests, filterable by type
+- **Verified submissions** — every opportunity goes through an admin review queue (pending → approved/rejected) before it's publicly listed, with a mandatory "why is this relevant to Stacks" field to support review
+- **StackScout Approved badge** — signals a listing passed review, without implying financial endorsement
+- **Opportunity detail pages** — full context (description, requirements, reward, deadline, linked project's live activity) before a user ever clicks through to apply
+- **User accounts** — sign up, log in, track your own submissions and their review status from your profile
+- **Personalized feed** — select a role (developer, designer, writer, community, researcher) at signup and get a "Recommended for you" section matched to relevant opportunities
+- **Dark/light mode** — adapts to system preference automatically
+- **Fully responsive** — built and tested entirely on mobile
+
+## Tech Stack
+
+- **Backend:** Node.js, Express
+- **Database:** MongoDB (Atlas)
+- **Frontend:** EJS templating, custom CSS design system (no framework)
+- **Auth:** JWT sessions via httpOnly cookies, bcrypt password hashing
+- **On-chain data:** Stacks Blockchain API ([api.hiro.so](https://api.hiro.so))
+- **Email:** Resend API
+- **Scheduled jobs:** node-cron (activity refresh every 30 min, closing-soon check daily)
+- **Hosting:** Render, deployed from GitHub
+
+## How It Works
+
+1. **Project tracking** — a background job polls the Stacks Blockchain API every 30 minutes for each tracked project's contract, deriving an activity level (`high` / `growing` / `steady` / `quiet`) from recent transaction volume.
+2. **Opportunity submission** — a logged-in user submits an opportunity with a required explanation of its Stacks relevance. It's saved with `reviewStatus: pending` and is never shown publicly in this state.
+3. **Admin review** — an admin dashboard (`/admin`) shows every pending submission with all the context needed to verify it: project legitimacy, Stacks relevance, apply link, submitter. The admin approves, rejects (with a note), or resets a submission.
+4. **Public listing** — only `approved` opportunities appear on the homepage, project pages, and API.
 
 ## Setup
 
-1. Install dependencies:
-   ```
-   npm install
-   ```
+```bash
+npm install
+cp .env.example .env   # fill in MONGO_URI, JWT_SECRET, HIRO_API_KEY, RESEND_API_KEY
+npm run seed            # loads demo project + opportunity data
+npm start
+```
 
-2. Copy the environment file and fill in your values:
-   ```
-   cp .env.example .env
-   ```
-   - `MONGO_URI` — your MongoDB connection string (local or Atlas)
-   - `HIRO_API_KEY` — optional, but recommended for higher rate limits
-     (get one at https://www.hiro.so/)
-   - `TRACKED_CONTRACTS` — comma-separated Stacks contract principals you
-     want StackScout to track (used as a reference; wire actual contract
-     IDs into `config/seed.js` per project for live tracking)
+Visit `http://localhost:3000`.
 
-3. Seed demo data (project + opportunity listings for the demo):
-   ```
-   npm run seed
-   ```
+To make an account an admin, set `isAdmin: true` on that user's document directly in MongoDB.
 
-4. Start the server:
-   ```
-   npm start
-   ```
-   or with auto-reload during development:
-   ```
-   npm run dev
-   ```
+## Screenshots
 
-5. Visit `http://localhost:3000`
+**Homepage — Trending Today, activity ranking, and project discovery**
+![Homepage](docs/screenshots/homepage.png)
 
-## How live activity tracking works
+**Admin review dashboard — full context for verifying submissions**
+![Admin dashboard](docs/screenshots/admin-dashboard-1.png)
+![Admin dashboard — full queue](docs/screenshots/admin-dashboard-2.png)
 
-- Each `Project` document can have a `contractId` (a Stacks contract
-  principal, e.g. `SP2C2...ZR.arkadiko-token`).
-- On boot, and every 30 minutes via `node-cron`, `activityRefresher.js`
-  pulls recent transactions for each tracked contract from the Hiro API
-  and derives a simple activity level: `high`, `growing`, `steady`, or
-  `quiet`, based on transaction count in the last 24 hours.
-- If a project has no `contractId` set, it shows as "not yet tracked" —
-  useful for projects you've added manually before wiring up their
-  on-chain address.
-- You can trigger a manual refresh (handy right before a demo) by hitting:
-  ```
-  POST /api/refresh-activity
-  ```
+## Roadmap
 
-## What's next (post-MVP)
+- Historical on-chain activity trends (charts over time, not just a snapshot)
+- Search and richer filtering (by skill, by "closing soon")
+- Expand live tracking to every listed project (currently verified for a subset)
+- Custom email domain for branded notification sending
 
-- Builder/contributor profiles pulled from address activity
-- GitHub activity signal layered alongside on-chain activity
-- Opportunity moderation queue (the `approved` field on `Opportunity` is
-  already there, just defaulted to `true` for the demo)
-- Chainhooks for real-time "new contract deployed" notifications instead
-  of polling
+## Built By
+
+**Aminu Abubakar** — final-year Computer Science student, Web3 content writer and ecosystem ambassador. Built and shipped entirely from a mobile phone.
+X: [@aminuabkrr](https://x.com/aminuabkrr)
