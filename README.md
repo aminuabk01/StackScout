@@ -3,7 +3,8 @@
 **Discover where to build, contribute, and grow within the Stacks ecosystem.**
 
 Live site: [stackscout.onrender.com](https://stackscout.onrender.com)
-X: [@StackScout_](https://x.com/StackScout_) · Telegram: [t.me/StackScout](https://t.me/StackScout)
+X: [@StackScout_](https://x.com/StackScout_) 
+Telegram: [t.me/StackScout](https://t.me/StackScout)
 
 ---
 
@@ -13,7 +14,7 @@ Finding active projects and real opportunities across the Stacks ecosystem is di
 
 ## The Solution
 
-StackScout combines **live on-chain activity data** from the Stacks Blockchain API with a **verified opportunity board**, so builders can see not just what projects exist, but what's actually active right now — and find legitimate, reviewed ways to contribute.
+StackScout combines **live on-chain activity data** from the Stacks Blockchain API with a **verified opportunity board**, so builders can see not just what projects exist, but what's actually active right now and find legitimate, reviewed ways to contribute.
 
 ## Features
 
@@ -35,7 +36,6 @@ StackScout combines **live on-chain activity data** from the Stacks Blockchain A
 - **Frontend:** EJS templating, custom CSS design system (no framework)
 - **Auth:** JWT sessions via httpOnly cookies, bcrypt password hashing
 - **On-chain data:** Stacks Blockchain API ([api.hiro.so](https://api.hiro.so))
-- **Email:** Resend API
 - **Scheduled jobs:** node-cron (activity refresh every 30 min, closing-soon check daily)
 - **Hosting:** Render, deployed from GitHub
 
