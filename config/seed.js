@@ -66,13 +66,14 @@ const opportunities = [
     applyUrl: 'https://stacksendowment.co/grants',
   },
   {
-    title: 'DeGrants Cohort 4 — Community Grants (closes July 26!)',
+    title: 'DeGrants Cohort 4 — Community Grants (closed)',
     projectName: 'Stacks Ecosystem',
     type: 'Grant',
     skillsNeeded: ['Any'],
-    description: 'Community-led grants funding culture, education, adoption, and engagement projects across Stacks. Up to $5,000 in STX. Applications close Sunday, July 26.',
+    description: 'Community-led grants funding culture, education, adoption, and engagement projects across Stacks. This cohort has closed — a new cohort is expected later.',
     applyUrl: 'https://stacksendowment.co/blog/degrants-cohort-4-now-open',
     deadline: '2026-07-26',
+    status: 'closed',
   },
   {
     title: 'Builder Grants — Quarterly Funding',
@@ -87,8 +88,8 @@ const opportunities = [
     projectName: 'Stacks Ecosystem',
     type: 'Bounty',
     skillsNeeded: ['Security', 'Clarity'],
-    description: 'Earn bounties for discovering and responsibly disclosing bugs and vulnerabilities via Immunefi.',
-    applyUrl: 'https://stacks.org/grants',
+    description: 'Earn bounties for discovering and responsibly disclosing bugs and vulnerabilities via Immunefi — rewards range up to $250,000 for critical-severity findings.',
+    applyUrl: 'https://immunefi.com/bug-bounty/stacks/information/',
   },
   {
     title: 'Maelstrom Bitcoin Grant',
